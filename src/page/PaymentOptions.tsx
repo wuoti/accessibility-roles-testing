@@ -4,7 +4,7 @@ import BasketItemCard from '../component/BasketItemCard'
 import BasketItemList from '../component/BasketItemList'
 import ConfirmationModal from '../component/ConfirmationModal'
 import PriceBreakdown from '../component/PriceBreakdown'
-import { BasketItem, BasketItemType } from '../Model'
+import { BasketItem, BasketItemType } from '../model/Model'
 import { useBasket } from '../provider/BasketProvider'
 
 export const PaymentOptions = (): JSX.Element => {

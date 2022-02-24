@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
-import { Basket, BasketItem, BasketItemType, createBasket } from '../Model'
+import { Basket, BasketItemType, createBasket } from '../model/Model'
 
 type BasketContext = {
   basket: Basket

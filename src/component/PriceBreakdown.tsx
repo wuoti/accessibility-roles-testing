@@ -1,6 +1,5 @@
-import { Box, Flex, Grid, HStack, Stack, Text, VStack } from '@chakra-ui/react'
-import { useState } from 'react'
-import { Basket, BasketItemType } from '../Model'
+import { Box, Flex, Stack, Text } from '@chakra-ui/react'
+import { Basket, BasketItemType } from '../model/Model'
 import { useBasket } from '../provider/BasketProvider'
 
 interface TotalPrice {

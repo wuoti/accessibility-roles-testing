@@ -1,13 +1,11 @@
 import { Heading, List, ListItem, Stack } from '@chakra-ui/react'
-import { IconType } from 'react-icons'
-import { FaCar, FaGlobe, FaHotel } from 'react-icons/fa'
-import BasketItemCard from './BasketItemCard'
 import {
   BasketItem,
   BasketItemType,
   getSelectedPaymentOptionId,
-} from '../Model'
+} from '../model/Model'
 import { useBasket } from '../provider/BasketProvider'
+import BasketItemCard from './BasketItemCard'
 
 interface BasketItemListProps {
   type: BasketItemType

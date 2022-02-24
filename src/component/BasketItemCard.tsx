@@ -4,17 +4,14 @@ import {
   Flex,
   Grid,
   Heading,
-  HStack,
   Radio,
   RadioGroup,
   Stack,
-  StackDivider,
   Text,
 } from '@chakra-ui/react'
-import { useState } from 'react'
 import { IconType } from 'react-icons'
 import { FaCar, FaGlobe, FaHotel } from 'react-icons/fa'
-import { BasketItem, BasketItemType, PaymentOptions } from '../Model'
+import { BasketItem, BasketItemType, PaymentOptions } from '../model/Model'
 
 interface BasketItemCardProps extends BasketItem {
   type: BasketItemType
