@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
 import { Basket, BasketItemType, createBasket } from '../model/Model'
 
-type BasketContext = {
+interface BasketContext {
   basket: Basket
   removeBasketItem: (id: string, type: BasketItemType) => void
   selectPaymentOption: (

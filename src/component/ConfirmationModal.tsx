@@ -26,7 +26,7 @@ const ConfirmationModal = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent data-testid="confirmation-modal">
         <ModalHeader>Remove this item?</ModalHeader>
         <ModalCloseButton />
         <ModalBody>{children}</ModalBody>

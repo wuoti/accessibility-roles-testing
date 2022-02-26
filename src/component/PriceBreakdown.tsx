@@ -1,46 +1,20 @@
-import { Box, Flex, Stack, Text } from '@chakra-ui/react'
-import { Basket, BasketItemType } from '../model/Model'
+import {
+  Box,
+  Button,
+  Flex,
+  List,
+  ListItem,
+  Stack,
+  Text,
+} from '@chakra-ui/react'
+import { BasketItemType } from '../model/Model'
 import { useBasket } from '../provider/BasketProvider'
-
-interface TotalPrice {
-  eurValue: number
-  fimValue: number
-  fimCollectValue: number
-}
-
-type TotalPricesByCategory = { [key in BasketItemType]?: TotalPrice }
-
-const calculateTotalPrices = (basket: Basket): TotalPricesByCategory =>
-  Object.entries(basket)
-    .map(([type, items]) => [
-      type as BasketItemType,
-      items.reduce(
-        (acc, { paymentOptions: { options, onlyEurPaymentOption } }) => {
-          const paymentOption = options.find(({ isSelected }) => isSelected)
-          if (paymentOption) {
-            return {
-              eurValue: acc.eurValue + paymentOption.eurValue,
-              fimValue: acc.fimValue + paymentOption.fimValue,
-              fimCollectValue: acc.fimCollectValue,
-            }
-          } else if (onlyEurPaymentOption.isSelected) {
-            return {
-              eurValue: onlyEurPaymentOption.eurValue,
-              fimValue: acc.fimValue,
-              fimCollectValue:
-                acc.fimCollectValue + onlyEurPaymentOption.fimCollectValue,
-            }
-          } else {
-            throw new Error('No payment option selected')
-          }
-        },
-        { eurValue: 0, fimValue: 0, fimCollectValue: 0 }
-      ),
-    ])
-    .reduce(
-      (acc, [type, total]) => ({ ...acc, [type as BasketItemType]: total }),
-      {}
-    )
+import { Page, useNavigation } from '../provider/NavigationProvider'
+import {
+  calculateTotalOfTotals,
+  calculateTotalPrices,
+  TotalPrice,
+} from '../util/price-calculation'
 
 interface PriceBreakDownByTypeProps {
   type: BasketItemType
@@ -74,46 +48,60 @@ const PriceBreakDownByType = ({
 const PriceBreakdown = (): JSX.Element => {
   const { basket } = useBasket()
 
+  console.log('basket', basket.hotel)
   const totalPrices = calculateTotalPrices(basket)
+  const totalOfTotals = calculateTotalOfTotals(totalPrices)
 
-  const totalOfTotals = Object.values(totalPrices).reduce(
-    (acc, { eurValue, fimValue, fimCollectValue }) => ({
-      eurValue: acc.eurValue + eurValue,
-      fimValue: acc.fimValue + fimValue,
-      fimCollectValue: acc.fimCollectValue + fimCollectValue,
-    }),
-    { eurValue: 0, fimValue: 0, fimCollectValue: 0 }
-  )
+  const { goto } = useNavigation()
 
   return (
-    <Stack border="1px solid black" borderRadius={5} p={3} mt="95px">
+    <Stack
+      border="1px solid black"
+      borderRadius={5}
+      p={3}
+      mt="95px"
+      spacing={3}
+      data-testid="price-breakdown"
+    >
       <Stack spacing={5}>
-        {Object.entries(totalPrices).map(([type, price]) => (
-          <PriceBreakDownByType
-            key={type}
-            type={type as BasketItemType}
-            totalPrice={price}
-          />
-        ))}
+        <List>
+          {Object.entries(totalPrices).map(([type, price]) => (
+            <ListItem key={type}>
+              <PriceBreakDownByType
+                type={type as BasketItemType}
+                totalPrice={price}
+              />
+            </ListItem>
+          ))}
+        </List>
       </Stack>
       <hr />
-      <Text fontWeight="bold" textAlign="right">
-        Total due
-      </Text>
-      <Stack
-        textAlign="right"
-        direction="row"
-        justifyContent="flex-end"
-        columnGap={5}
-      >
-        <Text>{totalOfTotals.fimValue}mk</Text>
-        <Text>{totalOfTotals.eurValue}€</Text>
-      </Stack>
-      {totalOfTotals.fimCollectValue > 0 && (
-        <Text textAlign="center" fontSize="xs">
-          Collect {totalOfTotals.fimCollectValue}mk with this purchase
+      <Box>
+        <Text fontWeight="bold" textAlign="right">
+          Total due
         </Text>
-      )}
+        <Stack
+          textAlign="right"
+          direction="row"
+          justifyContent="flex-end"
+          spacing={6}
+        >
+          <Text data-testid="total-fim">{totalOfTotals.fimValue}mk</Text>
+          <Text data-testid="total-eur">{totalOfTotals.eurValue}€</Text>
+        </Stack>
+        {totalOfTotals.fimCollectValue > 0 && (
+          <Text
+            textAlign="center"
+            fontSize="xs"
+            data-testid="fim-collect-value"
+          >
+            Collect {totalOfTotals.fimCollectValue}mk with this purchase
+          </Text>
+        )}
+      </Box>
+      <Button size="md" onClick={() => goto(Page.Checkout)}>
+        Continue to checkout
+      </Button>
     </Stack>
   )
 }

@@ -31,7 +31,7 @@ const BasketItemList = ({
 
   return (
     <Stack>
-      <Heading as="h2" size="l">
+      <Heading as="h2" size="md">
         {headings[type]}
       </Heading>
       <List spacing={6}>
