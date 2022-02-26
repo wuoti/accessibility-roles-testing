@@ -19,6 +19,8 @@ export const Basket = (): JSX.Element => {
         templateColumns={'2fr 1fr'}
         gap={5}
         padding={['10px 10px', '20px 20px', '50px 50px', '50px 200px']}
+        as="main"
+        aria-labelledby="payment-options-title"
       >
         <Stack spacing={5}>
           <Heading as="h1" size="xl">

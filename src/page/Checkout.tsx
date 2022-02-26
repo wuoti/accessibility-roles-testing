@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Stack } from '@chakra-ui/react'
+import { Button, Heading, Stack } from '@chakra-ui/react'
 import { useBasket } from '../provider/BasketProvider'
 import { Page, useNavigation } from '../provider/NavigationProvider'
 import {
@@ -19,8 +19,10 @@ const Checkout = (): JSX.Element => {
       height="100vh"
       direction="column"
       spacing={3}
+      as="main"
+      aria-labelledby="checkout-title"
     >
-      <Heading as="h1" size="xl">
+      <Heading as="h1" size="xl" id="checkout-title">
         Checkout
       </Heading>
       <Heading as="h3" size="md">

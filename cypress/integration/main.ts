@@ -1,12 +1,7 @@
 import {
   countTotal,
   extractSelectedPaymentOptionValues,
-  paymentOptionsRadioButtonGroupTestId,
 } from 'cypress/utils/payment-option'
-
-const basketItemCardTestId = 'basket-item-card'
-const confirmationModalTestId = 'confirmation-modal'
-const priceBreakdownTestId = 'price-breakdown'
 
 describe('Basket', () => {
   beforeEach(() => {
@@ -14,62 +9,59 @@ describe('Basket', () => {
   })
 
   it('checks title is visible', () => {
-    cy.findByText(/^Basket$/)
+    cy.findByRole('main', { name: /^Basket$/ })
   })
 
   describe('on clicking on "Remove" button on a basket item card', () => {
-    const basketItemTitle = 'Hotelli Vantaa'
+    const basketItemTitle = /^Hotelli Vantaa$/
 
     beforeEach(() => {
-      cy.findAllByTestId(basketItemCardTestId)
-        .findByText(basketItemTitle)
-        .parentsUntil(`[data-testid=${basketItemCardTestId}]`)
-        .parent()
-        .within(() => {
-          cy.findByText(/^Remove$/).click()
-        })
+      cy.findByRole('article', { name: basketItemTitle }).within(() => {
+        cy.findByText(/^Remove$/).click()
+      })
     })
 
+    const findConfirmationModal = () =>
+      cy.findByRole('dialog', { name: /^Remove this item\?$/ })
+
     it('displays a confirmation modal with the basket item card', () => {
-      cy.findByTestId(confirmationModalTestId)
-        .findByTestId(basketItemCardTestId)
-        .findByText(basketItemTitle)
+      findConfirmationModal().within(() => {
+        cy.findByRole('article', { name: basketItemTitle })
+      })
     })
 
     describe('on clicking on "No" button', () => {
       beforeEach(() => {
-        cy.findByText(/^No$/).click()
+        cy.findByRole('button', { name: /^No$/ }).click()
       })
 
       it('closes the confirmation modal', () => {
-        cy.findByTestId(confirmationModalTestId).should('not.exist')
+        findConfirmationModal().should('not.exist')
       })
     })
 
     describe('on clicking on "Yes" button', () => {
       beforeEach(() => {
-        cy.findByText(/^Yes$/).click()
+        cy.findByRole('button', { name: /^Yes$/ }).click()
       })
 
       it('closes the confirmation modal', () => {
-        cy.findByTestId(confirmationModalTestId).should('not.exist')
+        findConfirmationModal().should('not.exist')
       })
 
       it('removes the basket item card from the basket', () => {
-        cy.findAllByTestId(basketItemCardTestId)
-          .findByText(basketItemTitle)
-          .should('not.exist')
+        cy.findByRole('article', { name: basketItemTitle }).should('not.exist')
       })
     })
   })
 
   describe('on clicking on "Continue to checkout" button', () => {
     beforeEach(() => {
-      cy.findByText(/^Continue to checkout$/).click()
+      cy.findByRole('button', { name: /^Continue to checkout$/ }).click()
     })
 
     it('displays the checkout page', () => {
-      cy.findByText(/^Checkout$/)
+      cy.findByRole('main', { name: /^Checkout$/ })
     })
 
     it('displays the total due amount', () => {
@@ -78,11 +70,11 @@ describe('Basket', () => {
 
     describe('on clicking on "Back to basket"', () => {
       beforeEach(() => {
-        cy.findByText(/^Back to basket$/).click()
+        cy.findByRole('button', { name: /^Back to basket$/ }).click()
       })
 
       it('displays the "Basket" page', () => {
-        cy.findByText(/^Basket$/)
+        cy.findByRole('main', { name: /^Basket$/ })
       })
     })
   })
@@ -92,28 +84,30 @@ describe('Basket', () => {
       extractSelectedPaymentOptionValues().then((selectedPaymentOptions) => {
         const total = countTotal(selectedPaymentOptions)
 
-        cy.findByTestId(priceBreakdownTestId).within(() => {
-          cy.findByTestId('total-fim')
-            .invoke('text')
-            .should('eq', `${total.fimValue}mk`)
-
-          cy.findByTestId('total-eur')
-            .invoke('text')
-            .should('eq', `${total.eurValue}€`)
-
-          const fimCollectValue = cy.findByTestId('fim-collect-value')
-
-          if (total.fimCollectValue !== 0) {
-            fimCollectValue
+        cy.findByRole('complementary', { name: /^Price breakdown$/ }).within(
+          () => {
+            cy.findByTestId('total-fim')
               .invoke('text')
-              .should(
-                'eq',
-                `Collect ${total.fimCollectValue}mk with this purchase`
-              )
-          } else {
-            fimCollectValue.should('not.exist')
+              .should('eq', `${total.fimValue}mk`)
+
+            cy.findByTestId('total-eur')
+              .invoke('text')
+              .should('eq', `${total.eurValue}€`)
+
+            const fimCollectValue = cy.findByTestId('fim-collect-value')
+
+            if (total.fimCollectValue !== 0) {
+              fimCollectValue
+                .invoke('text')
+                .should(
+                  'eq',
+                  `Collect ${total.fimCollectValue}mk with this purchase`
+                )
+            } else {
+              fimCollectValue.should('not.exist')
+            }
           }
-        })
+        )
       })
     }
 
@@ -123,7 +117,7 @@ describe('Basket', () => {
 
     describe('on clicking on a different payment option', () => {
       beforeEach(() => {
-        cy.findAllByTestId(paymentOptionsRadioButtonGroupTestId)
+        cy.findAllByRole('radiogroup', { name: /^Payment options$/ })
           .first()
           .findAllByText(/^\d+mk \+ \d+€$/)
           .first()
@@ -136,7 +130,7 @@ describe('Basket', () => {
 
     describe('on clicking on only cash payment option', () => {
       beforeEach(() => {
-        cy.findAllByTestId(paymentOptionsRadioButtonGroupTestId)
+        cy.findAllByRole('radiogroup', { name: /^Payment options$/ })
           .first()
           .findByText(/\d+€ and collect \d+mk/)
           .click()
