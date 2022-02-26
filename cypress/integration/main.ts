@@ -8,13 +8,13 @@ const basketItemCardTestId = 'basket-item-card'
 const confirmationModalTestId = 'confirmation-modal'
 const priceBreakdownTestId = 'price-breakdown'
 
-describe('Payment options', () => {
+describe('Basket', () => {
   beforeEach(() => {
     cy.visit('/')
   })
 
   it('checks title is visible', () => {
-    cy.findByText(/^Payment options$/)
+    cy.findByText(/^Basket$/)
   })
 
   describe('on clicking on "Remove" button on a basket item card', () => {
@@ -79,13 +79,13 @@ describe('Payment options', () => {
       cy.findByText(/^Total due \d+mk and \d+€$/)
     })
 
-    describe('on clicking on "Back to payment options"', () => {
+    describe('on clicking on "Back to basket"', () => {
       beforeEach(() => {
-        cy.findByText(/^Back to payment options$/).click()
+        cy.findByText(/^Back to basket$/).click()
       })
 
-      it('displays the "Payment options" page', () => {
-        cy.findByText(/^Payment options$/)
+      it('displays the "Basket" page', () => {
+        cy.findByText(/^Basket$/)
       })
     })
   })

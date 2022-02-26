@@ -22,7 +22,7 @@ export const PaymentOptions = (): JSX.Element => {
       >
         <Stack spacing={5}>
           <Heading as="h1" size="xl">
-            Payment options
+            Basket
           </Heading>
 
           <Stack spacing={5}>

@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
 import Checkout from '../page/Checkout'
-import PaymentOptions from '../page/PaymentOptions'
+import PaymentOptions from '../page/Basket'
 
 export enum Page {
   PaymentOptions = 'PaymentOptions',

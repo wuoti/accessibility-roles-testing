@@ -26,9 +26,7 @@ const Checkout = (): JSX.Element => {
       <Heading as="h3" size="md">
         Total due {total.fimValue}mk and {total.eurValue}€
       </Heading>
-      <Button onClick={() => goto(Page.PaymentOptions)}>
-        Back to payment options
-      </Button>
+      <Button onClick={() => goto(Page.PaymentOptions)}>Back to basket</Button>
     </Stack>
   )
 }
