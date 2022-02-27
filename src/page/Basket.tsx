@@ -23,7 +23,7 @@ export const Basket = (): JSX.Element => {
         aria-labelledby="payment-options-title"
       >
         <Stack spacing={5}>
-          <Heading as="h1" size="xl">
+          <Heading as="h1" size="xl" id="payment-options-title">
             Basket
           </Heading>
 
