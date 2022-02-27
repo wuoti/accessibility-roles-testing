@@ -48,21 +48,14 @@ const PaymentOptionsSelect = ({
       >
         <Stack>
           {options.map(({ id, eurValue, fimValue }, i) => (
-            <Radio
-              key={id}
-              value={id}
-              data-testid={`payment-option-radio-button-${i}`}
-            >
+            <Radio key={id} value={id}>
               <Text fontSize="sm">
                 {fimValue}mk + {eurValue}€
               </Text>
             </Radio>
           ))}
           <hr />
-          <Radio
-            value={onlyEurPaymentOption.id}
-            data-testid="only-cash-payment-option-radio-button"
-          >
+          <Radio value={onlyEurPaymentOption.id}>
             <Text fontSize="sm">
               {onlyEurPaymentOption.eurValue}€ and collect{' '}
               {onlyEurPaymentOption.fimCollectValue}mk
