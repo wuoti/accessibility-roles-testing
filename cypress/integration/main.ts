@@ -134,7 +134,7 @@ describe('Basket', () => {
       })
     })
 
-    describe('on clicking on a only cash payment option option', () => {
+    describe('on clicking on only cash payment option', () => {
       beforeEach(() => {
         cy.findAllByTestId(paymentOptionsRadioButtonGroupTestId)
           .first()
