@@ -16,18 +16,16 @@ describe('Basket', () => {
     const basketItemTitle = /^Hotelli Vantaa$/
 
     beforeEach(() => {
-      cy.findByRole('article', { name: basketItemTitle }).within(() => {
-        cy.findByText(/^Remove$/).click()
-      })
+      cy.findByRole('article', { name: basketItemTitle })
+        .findByText(/^Remove$/)
+        .click()
     })
 
     const findConfirmationModal = () =>
       cy.findByRole('dialog', { name: /^Remove this item\?$/ })
 
     it('displays a confirmation modal with the basket item card', () => {
-      findConfirmationModal().within(() => {
-        cy.findByRole('article', { name: basketItemTitle })
-      })
+      findConfirmationModal().findByRole('article', { name: basketItemTitle })
     })
 
     describe('on clicking on "No" button', () => {
@@ -123,7 +121,7 @@ describe('Basket', () => {
           .first()
           .click()
       })
-      it('displays correct total due amount', () => {
+      it.only('displays correct total due amount', () => {
         checkCorrectTotalDueAmount()
       })
     })

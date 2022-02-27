@@ -22,32 +22,35 @@ export const countTotal = (paymentOptions: PaymentOption[]) =>
   )
 
 export const extractSelectedPaymentOptionValues = () => {
-  return cy.get('label[data-checked]').then(($radioButtons) => {
-    const radioButtons = $radioButtons.toArray()
+  return cy
+    .findAllByRole('radiogroup', { name: /^Payment options$/ })
+    .find('label[data-checked]')
+    .then(($radioButtons) => {
+      const radioButtons = $radioButtons.toArray()
 
-    return radioButtons
-      .map(($radioButton) => $radioButton.textContent)
-      .map((text) => {
-        const paymentOptionRegex = /^(\d+)mk \+ (\d+)€$/
-        const onlyCashRegex = /^(\d+)€ and collect (\d+)mk$/
-        const paymentOptionMatch = text?.match(paymentOptionRegex)
-        const onlyCashMatch = text?.match(onlyCashRegex)
+      return radioButtons
+        .map(($radioButton) => $radioButton.textContent)
+        .map((text) => {
+          const paymentOptionRegex = /^(\d+)mk \+ (\d+)€$/
+          const onlyCashRegex = /^(\d+)€ and collect (\d+)mk$/
+          const paymentOptionMatch = text?.match(paymentOptionRegex)
+          const onlyCashMatch = text?.match(onlyCashRegex)
 
-        if (paymentOptionMatch) {
-          return {
-            fimValue: Number(paymentOptionMatch![1]),
-            eurValue: Number(paymentOptionMatch![2]),
-            fimCollectValue: 0,
+          if (paymentOptionMatch) {
+            return {
+              fimValue: Number(paymentOptionMatch![1]),
+              eurValue: Number(paymentOptionMatch![2]),
+              fimCollectValue: 0,
+            }
+          } else if (onlyCashMatch) {
+            return {
+              fimValue: 0,
+              eurValue: Number(onlyCashMatch![1]),
+              fimCollectValue: Number(onlyCashMatch![2]),
+            }
+          } else {
+            throw new Error('Cannot parse payment option selection')
           }
-        } else if (onlyCashMatch) {
-          return {
-            fimValue: 0,
-            eurValue: Number(onlyCashMatch![1]),
-            fimCollectValue: Number(onlyCashMatch![2]),
-          }
-        } else {
-          throw new Error('Cannot parse payment option selection')
-        }
-      })
-  })
+        })
+    })
 }
