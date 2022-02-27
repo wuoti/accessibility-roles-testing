@@ -21,22 +21,19 @@ describe('Basket', () => {
     const basketItemTitle = 'Hotelli Vantaa'
 
     beforeEach(() => {
-      cy.findAllByTestId(basketItemCardTestId).within(() => {
-        cy.findByText(basketItemTitle)
-          .parentsUntil(`[data-testid=${basketItemCardTestId}]`)
-          .parent()
-          .within(() => {
-            cy.findByText(/^Remove$/).click()
-          })
-      })
+      cy.findAllByTestId(basketItemCardTestId)
+        .findByText(basketItemTitle)
+        .parentsUntil(`[data-testid=${basketItemCardTestId}]`)
+        .parent()
+        .within(() => {
+          cy.findByText(/^Remove$/).click()
+        })
     })
 
     it('displays a confirmation modal with the basket item card', () => {
-      cy.findByTestId(confirmationModalTestId).within(() => {
-        cy.findByTestId(basketItemCardTestId).within(() =>
-          cy.findByText(basketItemTitle)
-        )
-      })
+      cy.findByTestId(confirmationModalTestId)
+        .findByTestId(basketItemCardTestId)
+        .findByText(basketItemTitle)
     })
 
     describe('on clicking on "No" button', () => {
@@ -59,9 +56,9 @@ describe('Basket', () => {
       })
 
       it('removes the basket item card from the basket', () => {
-        cy.findAllByTestId(basketItemCardTestId).within(() => {
-          cy.findByText(basketItemTitle).should('not.exist')
-        })
+        cy.findAllByTestId(basketItemCardTestId)
+          .findByText(basketItemTitle)
+          .should('not.exist')
       })
     })
   })
