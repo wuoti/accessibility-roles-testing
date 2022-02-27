@@ -121,7 +121,7 @@ describe('Basket', () => {
           .first()
           .click()
       })
-      it.only('displays correct total due amount', () => {
+      it('displays correct total due amount', () => {
         checkCorrectTotalDueAmount()
       })
     })
