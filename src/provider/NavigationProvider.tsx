@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
 import Checkout from '../page/Checkout'
-import PaymentOptions from '../page/Basket'
+import Basket from '../page/Basket'
 
 export enum Page {
   PaymentOptions = 'PaymentOptions',
@@ -31,7 +31,7 @@ const NavigationProvider = ({ children }: { children: ReactNode }) => {
   const goto = (page: Page) => setDisplayedPage(page)
 
   const pages = {
-    [Page.PaymentOptions]: PaymentOptions,
+    [Page.PaymentOptions]: Basket,
     [Page.Checkout]: Checkout,
   }
 

@@ -7,7 +7,7 @@ import PriceBreakdown from '../component/PriceBreakdown'
 import { BasketItem, BasketItemType } from '../model/Model'
 import { useBasket } from '../provider/BasketProvider'
 
-export const PaymentOptions = (): JSX.Element => {
+export const Basket = (): JSX.Element => {
   const { basket, removeBasketItem } = useBasket()
   const [itemToRemove, setItemToRemove] = useState<
     (BasketItem & { type: BasketItemType }) | undefined
@@ -67,4 +67,4 @@ export const PaymentOptions = (): JSX.Element => {
   )
 }
 
-export default PaymentOptions
+export default Basket
