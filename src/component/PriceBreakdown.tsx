@@ -48,7 +48,6 @@ const PriceBreakDownByType = ({
 const PriceBreakdown = (): JSX.Element => {
   const { basket } = useBasket()
 
-  console.log('basket', basket.hotel)
   const totalPrices = calculateTotalPrices(basket)
   const totalOfTotals = calculateTotalOfTotals(totalPrices)
 
