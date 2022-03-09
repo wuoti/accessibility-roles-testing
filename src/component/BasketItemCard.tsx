@@ -75,6 +75,7 @@ const PaymentOptionsSelect = ({
 }
 
 const BasketItemCard = ({
+  id,
   type,
   name,
   startDate,
@@ -127,9 +128,13 @@ const BasketItemCard = ({
         <Icon size="100%" />
         <Flex gap={3}>
           <Stack flex={2}>
-            <Heading as="h3" size="sm">
-              {name}
-            </Heading>
+            <Flex direction="row" justifyContent="space-between">
+              <Heading as="h3" size="sm">
+                {name}
+              </Heading>
+              <Text size="xs">id: {id}</Text>
+            </Flex>
+
             <Text>
               {formatDate(startDate)} - {formatDate(endDate)}
             </Text>
