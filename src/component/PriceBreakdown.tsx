@@ -60,7 +60,8 @@ const PriceBreakdown = (): JSX.Element => {
       p={3}
       mt="95px"
       spacing={3}
-      data-testid="price-breakdown"
+      as="aside"
+      aria-label="Price breakdown"
     >
       <Stack spacing={5}>
         <List>

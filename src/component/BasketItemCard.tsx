@@ -44,25 +44,18 @@ const PaymentOptionsSelect = ({
       <RadioGroup
         onChange={selectPaymentOption}
         value={selectedPaymentOptionId}
-        data-testid="payment-options-radio-button-group"
+        aria-label="Payment options"
       >
         <Stack>
           {options.map(({ id, eurValue, fimValue }, i) => (
-            <Radio
-              key={id}
-              value={id}
-              data-testid={`payment-option-radio-button-${i}`}
-            >
+            <Radio key={id} value={id}>
               <Text fontSize="sm">
                 {fimValue}mk + {eurValue}€
               </Text>
             </Radio>
           ))}
           <hr />
-          <Radio
-            value={onlyEurPaymentOption.id}
-            data-testid="only-cash-payment-option-radio-button"
-          >
+          <Radio value={onlyEurPaymentOption.id}>
             <Text fontSize="sm">
               {onlyEurPaymentOption.eurValue}€ and collect{' '}
               {onlyEurPaymentOption.fimCollectValue}mk
@@ -104,7 +97,7 @@ const BasketItemCard = ({
   const Icon = icons[type]
 
   return (
-    <Box position="relative" data-testid="basket-item-card">
+    <Box position="relative" as="article" aria-label={name}>
       {onRemove && (
         <Button
           position="absolute"

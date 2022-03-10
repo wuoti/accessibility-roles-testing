@@ -23,8 +23,8 @@ export const countTotal = (paymentOptions: PaymentOption[]) =>
 
 export const extractSelectedPaymentOptionValues = () => {
   return cy
-    .findAllByTestId(paymentOptionsRadioButtonGroupTestId)
-    .get('label[data-checked]')
+    .findAllByRole('radiogroup', { name: /^Payment options$/ })
+    .find('label[data-checked]')
     .then(($radioButtons) => {
       const radioButtons = $radioButtons.toArray()
 
